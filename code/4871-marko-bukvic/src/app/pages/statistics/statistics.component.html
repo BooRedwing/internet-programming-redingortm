@@ -1,1 +1,34 @@
-<p>statistics works!</p>
+<h2>Statistics</h2>
+
+@if (stats(); as s) {
+  <ul>
+    <li>Total movies: {{ s.totalMovies }}</li>
+    <li>Total actors: {{ s.totalActors }}</li>
+    <li>Total genres: {{ s.totalGenres }}</li>
+    <li>Total oscars: {{ s.totalOscars }}</li>
+  </ul>
+
+  <h3>Oscars per type</h3>
+  <ul>@for (x of s.oscarsPerType; track x.name) { <li>{{ x.name }}: {{ x.count }}</li> }</ul>
+
+  <h3>Oscars per genre</h3>
+  <ul>@for (x of s.oscarsPerGenre; track x.name) { <li>{{ x.name }}: {{ x.count }}</li> }</ul>
+
+  <h3>Movies per decade</h3>
+  <ul>@for (x of s.moviesPerDecade; track x.name) { <li>{{ x.name }}: {{ x.count }}</li> }</ul>
+
+  <h3>Movies per genre</h3>
+  <ul>@for (x of s.moviesPerGenre; track x.name) { <li>{{ x.name }}: {{ x.count }}</li> }</ul>
+
+  <h3>Actors without details: {{ s.actorsWithoutDetails.length }}</h3>
+  <details><summary>Show list</summary>
+    <ul>@for (name of s.actorsWithoutDetails; track name) { <li>{{ name }}</li> }</ul>
+  </details>
+
+  <h3>Movies without details: {{ s.moviesWithoutDetails.length }}</h3>
+  <details><summary>Show list</summary>
+    <ul>@for (title of s.moviesWithoutDetails; track title) { <li>{{ title }}</li> }</ul>
+  </details>
+} @else {
+  <p>Loading...</p>
+}

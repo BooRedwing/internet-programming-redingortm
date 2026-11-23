@@ -5,15 +5,29 @@
   
   @if (error()) { <p class="error">{{ error() }}</p> }
   
+  <!-- Bonus: filters -->
+  <div class="filters">
+    <input type="text" placeholder="Title" [(ngModel)]="titleFilter">
+    <input type="number" placeholder="Year" [(ngModel)]="yearFilter">
+    <select [(ngModel)]="genreFilter">
+      <option value="">All genres</option>
+      @for (genre of genres(); track genre) { <option [value]="genre">{{ genre }}</option> }
+    </select>
+    <input type="number" placeholder="Min rating" step="0.1" [(ngModel)]="ratingFilter">
+    <button type="button" (click)="clearFilters()">Clear</button>
+  </div>
+  
   <table class="table">
     <thead>
       <tr>
-        <th>ID</th><th>Title</th><th>Year</th><th>Director</th>
-        <th>Genre</th><th>Oscars</th><th>Rating</th><th>Actions</th>
+        @for (col of columns; track col.key) {
+          <th (click)="sortBy(col.key)" class="sortable">{{ col.label }} {{ arrow(col.key) }}</th>
+        }
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      @for (movie of movies(); track movie.id) {
+      @for (movie of visibleMovies(); track movie.id) {
         <tr>
           <td>{{ movie.id }}</td>
           <td>{{ movie.title }}</td>
