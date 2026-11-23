@@ -1,1 +1,13 @@
-<p>header works!</p>
+<nav class="navbar">
+    <div class="container navbar-container">
+      <a routerLink="/" class="navbar-brand"><h1>Movie Management</h1></a>
+      <ul class="navbar-nav">
+        @for (route of routes; track route.url) {
+          <li class="nav-item">
+            <a [routerLink]="route.url" routerLinkActive="active"
+               [routerLinkActiveOptions]="{ exact: true }" class="nav-link">{{ route.linkName }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+  </nav>
