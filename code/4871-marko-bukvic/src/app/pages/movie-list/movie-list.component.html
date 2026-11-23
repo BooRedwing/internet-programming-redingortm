@@ -1,1 +1,36 @@
-<p>movie-list works!</p>
+<div class="page-header">
+    <h2>Movies</h2>
+    <a routerLink="/movies/create" class="btn btn-primary">Add movie</a>
+  </div>
+  
+  @if (error()) { <p class="error">{{ error() }}</p> }
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Title</th><th>Year</th><th>Director</th>
+        <th>Genre</th><th>Oscars</th><th>Rating</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (movie of movies(); track movie.id) {
+        <tr>
+          <td>{{ movie.id }}</td>
+          <td>{{ movie.title }}</td>
+          <td>{{ movie.year }}</td>
+          <td>{{ movie.director }}</td>
+          <td>{{ movie.genres.join(' / ') }}</td>
+          <td>{{ movie.oscars.length }}</td>
+          <td>{{ movie.rating }}</td>
+          <td class="actions">
+            <a [routerLink]="['/movies', movie.id]">View</a>
+            <a [routerLink]="['/movies', movie.id, 'edit']">Edit</a>
+            <a [routerLink]="['/movies', movie.id, 'cast', 'add']">Add cast</a>
+            <button type="button" class="link danger" (click)="deleteMovie(movie)">Delete</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="8">No movies found.</td></tr>
+      }
+    </tbody>
+  </table>

@@ -1,12 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { formatOscarType } from '../utlis/movie-utils';
 
-@Pipe({
-  name: 'oscarType'
-})
+/** {{ 'bestPicture' | oscarType }} -> Best Picture */
+@Pipe({ name: 'oscarType' })
 export class OscarTypePipe implements PipeTransform {
-
-  transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
+  transform(key: string): string {
+    return formatOscarType(key);
   }
-
 }

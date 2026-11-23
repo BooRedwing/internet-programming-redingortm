@@ -1,1 +1,52 @@
-<p>movie-details works!</p>
+@if (view() === undefined) {
+    <p>Loading...</p>
+  } @else if (view() === null) {
+    <p>Movie not found. <a routerLink="/movies">Back to the list</a></p>
+  } @else {
+    @let v = view()!;
+    <div class="page-header">
+      <h2>{{ v.movie.title }}</h2>
+      <div class="actions">
+        <a [routerLink]="['/movies', v.movie.id, 'edit']" class="btn">Edit</a>
+        <a [routerLink]="['/movies', v.movie.id, 'cast', 'add']" class="btn">Add cast</a>
+        <button type="button" class="btn danger" (click)="delete(v.movie)">Delete</button>
+      </div>
+    </div>
+  
+    <dl class="details">
+      <dt>ID</dt><dd>{{ v.movie.id }}</dd>
+      <dt>Title</dt><dd>{{ v.movie.title }}</dd>
+      <dt>Year</dt><dd>{{ v.movie.year }}</dd>
+      <dt>Plot</dt><dd>{{ v.movie.plot }}</dd>
+      <dt>Director</dt><dd>{{ v.movie.director }}</dd>
+      <dt>Genre</dt>
+      <dd><ul>@for (g of v.movie.genres; track g) { <li>{{ g }}</li> }</ul></dd>
+      <dt>Oscars</dt>
+      <dd>
+        <ul>
+          @for (o of v.oscars; track o.type) { <li>{{ o.type | oscarType }}: {{ o.recipient }}</li> }
+          @empty { <li>None</li> }
+        </ul>
+      </dd>
+      <dt>Rating</dt><dd>{{ v.movie.rating }}</dd>
+      <dt>Cast</dt>
+      <dd>
+        <ul>
+          @for (c of v.cast; track $index) {
+            <li>
+              @if (c.actorId) { <a [routerLink]="['/actor', c.actorId]">{{ c.actor }}</a> }
+              @else { {{ c.actor }} }
+              as {{ c.character }}
+            </li>
+          }
+        </ul>
+      </dd>
+    </dl>
+  
+    <h3>Similar movies (genre)</h3>
+    <ul>@for (m of v.sameGenre; track m.id) { <li><a [routerLink]="['/movies', m.id]">{{ m.title }}</a></li> } @empty { <li>None</li> }</ul>
+    <h3>Same director</h3>
+    <ul>@for (m of v.sameDirector; track m.id) { <li><a [routerLink]="['/movies', m.id]">{{ m.title }}</a></li> } @empty { <li>None</li> }</ul>
+    <h3>Same actors</h3>
+    <ul>@for (m of v.sameActor; track m.id) { <li><a [routerLink]="['/movies', m.id]">{{ m.title }}</a></li> } @empty { <li>None</li> }</ul>
+  }
